@@ -4,6 +4,7 @@
 #include "hl_alert_dll.h"
 #include "console.h"
 #include "keystroke.h"
+#include "route.h"
 
 // Handle to the thread
 static HANDLE dllThread;
@@ -13,6 +14,9 @@ static DWORD_PTR our_alert_ptr = (DWORD_PTR)&our_alert;
 
 // Console
 static Console console;
+
+// Route
+static Route route;
 
 void our_alert(int alert_type, char* formatString, ...)
 {
@@ -24,20 +28,30 @@ void our_alert(int alert_type, char* formatString, ...)
   va_end(args);
 
   std::string message(temp);
-  // CHANGE LEVEL: c1a0d c1a0toc1a0d
-  if (message.substr(0, 13) == "CHANGE LEVEL:")
+  if (message.substr(0, 14) == "CHANGE LEVEL: ")
   {
-    console.write("Pressing hotkey!");
-    // We need to release modifier keys for some reason
-    KeyStroke::releaseKey(VK_SHIFT);
-    KeyStroke::releaseKey(VK_CONTROL);
-    KeyStroke::releaseKey(VK_MENU);
+    // Extract level from message
+    std::string levelAndLandmark(message.substr(14));
+    std::string level(levelAndLandmark.substr(0, levelAndLandmark.find(' ')));
 
-    // Then press our hotkey
-    KeyStroke::pressAndRelease(VK_ADD);
+    //console.write("message: [%s] levelAndLandmark: [%s] level: [%s]\n", message.c_str(), levelAndLandmark.c_str(), level.c_str());
+    if (route.checkNextLevelInRoute(level))
+    {
+      console.write("Changing level to: %s - Next level in route, pressing hotkey!\n", level.c_str());
+
+      // We need to release modifier keys for some reason
+      KeyStroke::releaseKey(VK_SHIFT);
+      KeyStroke::releaseKey(VK_CONTROL);
+      KeyStroke::releaseKey(VK_MENU);
+
+      // Then press our hotkey
+      KeyStroke::pressAndRelease(VK_ADD);
+    }
+    else
+    {
+      console.write("Changing level to: %s - Not next level in route!\n", level.c_str());
+    }
   }
-
-  console.write(message);
 }
 
 void dllThreadFunc(HMODULE dllModule)
