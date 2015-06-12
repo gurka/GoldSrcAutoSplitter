@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="injector" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="debug">
+				<Option output="../injector/bin/debug/injector" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../injector/obj/debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="../injector/" />
+				</Compiler>
+			</Target>
+			<Target title="release">
+				<Option output="../injector/bin/release/injector" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../injector/obj/release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="../injector" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="../common/src" />
+		</Compiler>
+		<Linker>
+			<Add option="-static-libgcc -static-libstdc++" />
+			<Add library="Kernel32" />
+			<Add library="psapi" />
+		</Linker>
+		<Unit filename="../injector/src/injector.cc" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

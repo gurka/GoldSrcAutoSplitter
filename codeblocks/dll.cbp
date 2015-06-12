@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="dll" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="debug">
+				<Option output="../dll/bin/debug/autosplit" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../dll/obj/debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="user32" />
+				</Linker>
+			</Target>
+			<Target title="release">
+				<Option output="../dll/bin/release/autosplit" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../dll/obj/release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="user32" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-DWINVER=0x0501" />
+			<Add directory="../common/src" />
+		</Compiler>
+		<Linker>
+			<Add option="-static-libgcc -static-libstdc++" />
+		</Linker>
+		<Unit filename="../dll/src/console.cc" />
+		<Unit filename="../dll/src/console.h" />
+		<Unit filename="../dll/src/hl_alert_dll.cc" />
+		<Unit filename="../dll/src/hl_alert_dll.h" />
+		<Unit filename="../dll/src/keystroke.cc" />
+		<Unit filename="../dll/src/keystroke.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
