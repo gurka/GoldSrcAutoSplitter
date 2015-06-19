@@ -38,20 +38,37 @@ void our_alert(int alert_type, char* formatString, ...)
     if (route.checkNextLevelInRoute(level))
     {
       console.write("Changing level to: %s - Next level in route, pressing hotkey!\n", level.c_str());
-
-      // We need to release modifier keys for some reason
-      KeyStroke::releaseKey(VK_SHIFT);
-      KeyStroke::releaseKey(VK_CONTROL);
-      KeyStroke::releaseKey(VK_MENU);
-
-      // Then press our hotkey
-      KeyStroke::pressAndRelease(VK_ADD);
+      pressSplitHotkey();
     }
     else
     {
       console.write("Changing level to: %s - Not next level in route!\n", level.c_str());
     }
   }
+  else if (message.find("Chapter title: C0A1TITLE") != std::string::npos)
+  {
+    console.write("Assuming run restart, reseting route!\n");
+    route.reset();
+    pressSplitHotkey();
+  }
+  else if (message.find("Firing: (n_dead)") != std::string::npos)
+  {
+    console.write("Assuming nihilanth dead, pressing hotkey!\n");
+    pressSplitHotkey();
+  }
+
+  //console.write(message);
+}
+
+void pressSplitHotkey()
+{
+   // We need to release modifier keys for some reason
+  KeyStroke::releaseKey(VK_SHIFT);
+  KeyStroke::releaseKey(VK_CONTROL);
+  KeyStroke::releaseKey(VK_MENU);
+
+  // Then press our hotkey
+  KeyStroke::pressAndRelease(VK_ADD);
 }
 
 void dllThreadFunc(HMODULE dllModule)
